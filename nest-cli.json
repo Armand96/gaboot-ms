@@ -1,8 +1,68 @@
 {
   "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src",
+  "sourceRoot": "apps/gaboot-ms/src",
   "compilerOptions": {
-    "deleteOutDir": true
+    "deleteOutDir": true,
+    "webpack": true,
+    "tsConfigPath": "apps/gaboot-ms/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/gaboot-ms",
+  "projects": {
+    "gaboot-ms": {
+      "type": "application",
+      "root": "apps/gaboot-ms",
+      "entryFile": "main",
+      "sourceRoot": "apps/gaboot-ms/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/gaboot-ms/tsconfig.app.json"
+      }
+    },
+    "product-service": {
+      "type": "application",
+      "root": "apps/product-service",
+      "entryFile": "main",
+      "sourceRoot": "apps/product-service/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/product-service/tsconfig.app.json"
+      }
+    },
+    "order-service": {
+      "type": "application",
+      "root": "apps/order-service",
+      "entryFile": "main",
+      "sourceRoot": "apps/order-service/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/order-service/tsconfig.app.json"
+      }
+    },
+    "buyer-service": {
+      "type": "application",
+      "root": "apps/buyer-service",
+      "entryFile": "main",
+      "sourceRoot": "apps/buyer-service/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/buyer-service/tsconfig.app.json"
+      }
+    },
+    "api-gateway": {
+      "type": "application",
+      "root": "apps/api-gateway",
+      "entryFile": "main",
+      "sourceRoot": "apps/api-gateway/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/api-gateway/tsconfig.app.json"
+      }
+    },
+    "general": {
+      "type": "library",
+      "root": "libs/general",
+      "entryFile": "index",
+      "sourceRoot": "libs/general/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/general/tsconfig.lib.json"
+      }
+    }
   }
 }

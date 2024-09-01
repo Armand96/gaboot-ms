@@ -1,0 +1,162 @@
+services:
+  # Product Service Write MySQL
+  product-mysql-write:
+    image: mysql:8
+    container_name: product-mysql-write-container
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: product_write_db
+      MYSQL_USER: product_user
+      MYSQL_PASSWORD: developer
+    volumes:
+      - product_mysql_write_data:/var/lib/mysql
+    networks:
+      - gabz-network
+    ports:
+      - "3307:3306"
+
+  # Product Service Read MySQL
+  product-mysql-read:
+    image: mysql:8
+    container_name: product-mysql-read-container
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: product_read_db
+      MYSQL_USER: product_user
+      MYSQL_PASSWORD: developer
+    volumes:
+      - product_mysql_read_data:/var/lib/mysql
+    networks:
+      - gabz-network
+    ports:
+      - "33017:3306"
+
+  # Order Service Write MySQL
+  order-mysql-write:
+    image: mysql:8
+    container_name: order-mysql-write-container
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: order_write_db
+      MYSQL_USER: order_user
+      MYSQL_PASSWORD: developer
+    volumes:
+      - order_mysql_write_data:/var/lib/mysql
+    networks:
+      - gabz-network
+    ports:
+      - "3308:3306"
+
+  # Order Service Read MySQL
+  order-mysql-read:
+    image: mysql:8
+    container_name: order-mysql-read-container
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: order_read_db
+      MYSQL_USER: order_user
+      MYSQL_PASSWORD: developer
+    volumes:
+      - order_mysql_read_data:/var/lib/mysql
+    networks:
+      - gabz-network
+    ports:
+      - "33018:3306"
+
+  # Buyer Service Write MySQL
+  buyer-mysql-write:
+    image: mysql:8
+    container_name: buyer-mysql-write-container
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: buyer_write_db
+      MYSQL_USER: buyer_user
+      MYSQL_PASSWORD: developer
+    volumes:
+      - buyer_mysql_write_data:/var/lib/mysql
+    networks:
+      - gabz-network
+    ports:
+      - "3309:3306"
+
+  # Buyer Service Read MySQL
+  buyer-mysql-read:
+    image: mysql:8
+    container_name: buyer-mysql-read-container
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: buyer_read_db
+      MYSQL_USER: buyer_user
+      MYSQL_PASSWORD: developer
+    volumes:
+      - buyer_mysql_read_data:/var/lib/mysql
+    networks:
+      - gabz-network
+    ports:
+      - "33019:3306"
+
+  #=======================================================
+  # Product Service
+  product-service:
+    build: ./apps/product-service
+    env_file:
+      - ./apps/product-service/.env
+    depends_on:
+      - product-mysql-write
+      - product-mysql-read
+    networks:
+      - gabz-network
+
+  # Order Service
+  order-service:
+    build: ./apps/order-service
+    env_file:
+      - ./apps/order-service/.env
+    depends_on:
+      - order-mysql-write
+      - order-mysql-read
+    networks:
+      - gabz-network
+
+  # Buyer Service
+  buyer-service:
+    build: ./apps/buyer-service
+    env_file:
+      - ./apps/buyer-service/.env
+    depends_on:
+      - buyer-mysql-write
+      - buyer-mysql-read
+    networks:
+      - gabz-network
+
+  # API Gateway
+  api-gateway:
+    build: ./apps/api-gateway
+    env_file:
+      - ./apps/api-gateway/.env
+    depends_on:
+      - product-service
+      - order-service
+      - buyer-service
+    ports:
+      - "3000:3000"
+    networks:
+      - gabz-network
+
+networks:
+  gabz-network:
+    driver: bridge
+
+volumes:
+  product_mysql_write_data:
+    driver: local
+  product_mysql_read_data:
+    driver: local
+  order_mysql_write_data:
+    driver: local
+  order_mysql_read_data:
+    driver: local
+  buyer_mysql_write_data:
+    driver: local
+  buyer_mysql_read_data:
+    driver: local
