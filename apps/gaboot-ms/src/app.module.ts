@@ -7,7 +7,7 @@ import { ApiGatewayModule } from 'apps/api-gateway/src/api-gateway.module';
 import { OrderServiceModule } from 'apps/order-service/src/order-service.module';
 
 @Module({
-  imports: [ProductServiceModule, OrderServiceModule, BuyerServiceModule, ApiGatewayModule, ],
+  imports: [],
   controllers: [AppController],
   providers: [AppService],
 })

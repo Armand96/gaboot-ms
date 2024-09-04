@@ -5,6 +5,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as dotenv from 'dotenv';
 import { Product } from './model/product.model';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 
 dotenv.config();
 
@@ -46,7 +47,7 @@ dotenv.config();
             inject: [ConfigService],
         }),
         SequelizeModule.forFeature([Product], 'writeConnection'),
-        SequelizeModule.forFeature([Product], 'readConnection')
+        SequelizeModule.forFeature([Product], 'readConnection'),
     ],
     controllers: [ProductServiceController],
     providers: [ProductServiceService],
