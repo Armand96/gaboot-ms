@@ -22,19 +22,19 @@ export class ProductServiceController {
 
     // @Get(':id')
     @MessagePattern('getOneProduct')
-    getOne(@Param('id') id: string) {
+    getOne(@Payload('id') id: number) {
         return this.productService.getOneProduct(+id);
     }
 
     // @Patch(':id')
     @MessagePattern('updateProduct')
-    update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
+    update(@Payload('id') id: number, @Body() updateProductDto: UpdateProductDto) {
         return this.productService.updateProduct(+id, updateProductDto);
     }
 
     // @Delete(':id')
     @MessagePattern('deleteProduct')
-    delete(@Param('id') id: string) {
+    delete(@Payload('id') id: number) {
         return this.productService.deleteProduct(+id);
     }
 

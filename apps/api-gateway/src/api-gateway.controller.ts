@@ -1,6 +1,7 @@
-import { Controller, Get, Inject } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Param, Post } from '@nestjs/common';
 import { ApiGatewayService } from './api-gateway.service';
 import { ClientProxy } from '@nestjs/microservices';
+import { CreateProductDto } from '@app/general';
 
 @Controller()
 export class ApiGatewayController {
@@ -17,5 +18,15 @@ export class ApiGatewayController {
     @Get('/products')
     getAllProducts() {
         return this.client.send('getAllProduct', {});
+    }
+
+    @Get('/products/:id')
+    getOneProduct(@Param() id: number) {
+        return this.client.send('getOneProduct', id);
+    }
+
+    @Post('/products')
+    createProduct(@Body() createProductDto: CreateProductDto){
+
     }
 }
